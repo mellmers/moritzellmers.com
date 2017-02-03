@@ -1,0 +1,32 @@
+.view.admin {
+  table.show-all {
+    table-layout: fixed;
+    td {
+      overflow: hidden;
+    }
+    .actions {
+      .btn {
+        display: inline-block;
+        margin: 0;
+        padding: 5px;
+      }
+    }
+    .description {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2; /* number of lines to show */
+      line-height: 1; /* fallback */
+      max-height: 1*2; /* fallback */
+
+      padding-bottom: 0;
+    }
+  }
+
+  .delete {
+    .btn-raised:not(:last-child) {
+      margin-right: 20px;
+    }
+  }
+}

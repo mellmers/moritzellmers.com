@@ -1,0 +1,13 @@
+#back-to-top {
+  display: none;
+  position: fixed;
+  z-index: 99;
+  bottom: 25px;
+  right: 25px;
+  cursor: pointer;
+  &:before {
+    position: relative;
+    font-size: 32px;
+    top: -3px;
+  }
+}

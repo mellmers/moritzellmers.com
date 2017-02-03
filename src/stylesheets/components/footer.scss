@@ -1,0 +1,27 @@
+@import './../mixins';
+@import './../variables';
+
+footer.footer {
+  position: absolute;
+  bottom: 0;
+  padding: 25px 0;
+  width: 100%;
+  height: auto;
+  background-color: #292c2f;
+  -webkit-box-shadow: 0 12px 30px 1px #009688;
+  box-shadow: 0 12px 30px 1px #009688;
+
+  .fa {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 3em;
+    margin: 0 5px;
+    cursor: pointer;
+    &:hover {
+      color: $brand-primary;
+    }
+  }
+
+  a.btn.btn-default {
+    color: $mdb-text-color-light;
+  }
+}

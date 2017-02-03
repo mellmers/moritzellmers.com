@@ -1,0 +1,28 @@
+@import "../variables";
+
+.view.home {
+  .parallax-window {
+    background-color: rgba(0, 0, 0, 0.4);
+    &.start {
+      margin-top: -20px;
+      h1 {
+        padding-top: 170px;
+        color: $mdb-text-color-light;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
+        strong {
+          color: $brand-primary-complementary;
+        }
+      }
+    }
+  }
+  .next-section {
+    position: relative;
+    top: -76px;
+    margin: 0 auto;
+    text-align: center;
+    color: $mdb-text-color-light;
+  }
+  section {
+    margin-bottom: 80px;
+  }
+}

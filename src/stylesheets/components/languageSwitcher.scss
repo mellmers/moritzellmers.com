@@ -1,0 +1,23 @@
+.language-switch {
+  position: absolute;
+  top: 23px;
+  left: 10px;
+  padding: 0;
+
+  li {
+    display: inline-block;
+    &:not(:last-child) {
+      border-right: 1px solid #fff;
+    }
+    &.active {
+      a {
+        text-decoration: underline;
+      }
+    }
+    a.btn.btn-default {
+      color: #fff;
+      padding: 2px 5px;
+      margin: 0 5px;
+    }
+  }
+}

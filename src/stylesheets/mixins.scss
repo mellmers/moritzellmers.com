@@ -1,0 +1,108 @@
+@mixin transition($time:1s,$property:all,$timing:ease) {
+  -webkit-transition: $property $time $timing;
+  -moz-transition: $property $time $timing;
+  -o-transition: $property $time $timing;
+  transition: $property $time $timing;
+  -moz-backface-visibility: hidden;
+  -webkit-backface-visibility:hidden;
+  backface-visibility: hidden;
+}
+@mixin transition-2-properties($time:1s,$property:all,$timing:ease,$time2:1s,$property2:all,$timing2:ease) {
+  -webkit-transition: $property $time $timing, $property2 $time2 $timing2;
+  -moz-transition: $property $time $timing, $property2 $time2 $timing2;
+  -o-transition: $property $time $timing, $property2 $time2 $timing2;
+  transition: $property $time $timing, $property2 $time2 $timing2;
+  -moz-backface-visibility: hidden;
+  -webkit-backface-visibility:hidden;
+  backface-visibility: hidden;
+}
+
+@mixin rotate($radius:0deg) {
+  -ms-transform: rotate($radius);
+  -webkit-transform: rotate($radius);
+  -o-transform: rotate($radius);
+  -moz-transform: rotate($radius);
+  transform: rotate($radius);
+}
+
+@mixin scale($number:1) {
+  -ms-transform: scale($number);
+  -webkit-transform: scale($number);
+  -o-transform: scale($number);
+  -moz-transform: scale($number);
+  transform: scale($number);
+}
+
+@mixin translateY($percent) {
+  -ms-transform: translateY($percent);
+  -webkit-transform: translateY($percent);
+  -o-transform: translateY($percent);
+  -moz-transform: translateY($percent);
+  transform: translateY($percent);
+}
+
+@mixin translateX($percent) {
+  -ms-transform: translateX($percent);
+  -webkit-transform: translateX($percent);
+  -o-transform: translateX($percent);
+  -moz-transform: translateX($percent);
+  transform: translateX($percent);
+}
+
+@mixin addFontSmoothingAntialiased() {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@mixin addBoxShadow($h_shadow:0, $v_shadow:0, $blur:0, $spread:0, $color:#000, $inset:null) {
+  -o-box-shadow: $h_shadow $v_shadow $blur $spread $color $inset;
+  -webkit-box-shadow: $h_shadow $v_shadow $blur $spread $color $inset;
+  -moz-box-shadow: $h_shadow $v_shadow $blur $spread $color $inset;
+  box-shadow: $h_shadow $v_shadow $blur $spread $color $inset;
+}
+
+@mixin addFlexBox($important:null) {
+  display: -webkit-box $important;          /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box $important;      /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox $important;   /* TWEENER - IE 10 */
+  display: -webkit-flex $important;  /* NEW - Chrome */
+  display: flex $important;          /* NEW, Spec - Opera 12.1, Firefox 20+ */
+}
+
+@mixin addInlineFlexBox($important:null) {
+  display: -webkit-box $important;          /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-inline-box $important;      /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-inline-flexbox $important;   /* TWEENER - IE 10 */
+  display: -webkit-inline-flex $important;  /* NEW - Chrome */
+  display: inline-flex $important;          /* NEW, Spec - Opera 12.1, Firefox 20+ */
+}
+
+@mixin addFlex($value:1) {
+  -webkit-box-flex: $value;      /* OLD - iOS 6-, Safari 3.1-6 */
+  -moz-box-flex: $value;         /* OLD - Firefox 19- */
+  -webkit-flex: $value;          /* Chrome */
+  -ms-flex: $value;              /* IE 10 */
+  flex: $value;
+}
+
+@mixin addAlignItems($value) {
+  -webkit-align-items: $value;
+  align-items: $value;
+}
+
+@mixin addJustifyContent($value) {
+  -webkit-justify-content: $value;
+  justify-content: $value;
+}
+
+@mixin addFlexWrap($value) {
+  -ms-flex-wrap: $value;
+  -webkit-flex-wrap: $value;
+  flex-wrap: $value;
+}
+
+@mixin addFlexDirection($value) {
+  -ms-flex-direction: $value;
+  -webkit-flex-direction: $value;
+  flex-direction: $value;
+}

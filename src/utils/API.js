@@ -2,7 +2,10 @@ import request from 'superagent';
 import when from 'when';
 import NProgress from 'nprogress';
 
-const baseUrl = "http://moritzellmers.com/api";
+const baseUrl = "http://localhost/api.moritzellmers";
+
+// Deployment
+//const baseUrl = "http://moritzellmers.com/api";
 
 NProgress.configure({ showSpinner: false, trickleRate: 0.05 });
 
@@ -18,16 +21,8 @@ export default class API {
         return this._call(url, 'GET', null, params);
     }
 
-    create(url, data, params = {}) {
-        return this._call(url, 'POST', data, params);
-    }
-
-    patch(url, data, params = {}) {
-        return this._call(url, 'PATCH', data, params);
-    }
-
-    del(url) {
-        return this._call(url, 'DELETE');
+    post(url, data) {
+        return this._call(url, 'POST', data, null, "application/x-www-form-urlencoded");
     }
 
     login(data) {

@@ -15,16 +15,40 @@ export function getProjects() {
         });
 }
 
-export function deleteProject(data) {
-    return dispatch => {
-        API.getInstance().del('/remove_project.php', data)
+export function createProject(data) {
+    return dispatch => API.getInstance().post('/create_project.php', data)
             .then(function(response) {
 
                 store.dispatch({
-                    type: ActionTypes.DELETE_PROJECT
+                    type: ActionTypes.CREATE_PROJECT,
+                    project: response
                 });
 
                 return response;
             });
-    }
+}
+
+export function deleteProject(data) {
+    return dispatch => API.getInstance().post('/remove_project.php', data)
+        .then(function(response) {
+
+            store.dispatch({
+                type: ActionTypes.DELETE_PROJECT
+            });
+
+            return response;
+        });
+}
+
+export function updateProject(data) {
+    return dispatch => API.getInstance().post('/update_project.php', data)
+        .then(function(response) {
+
+            store.dispatch({
+                type: ActionTypes.UPDATE_PROJECT,
+                project: response
+            });
+
+            return response;
+        });
 }

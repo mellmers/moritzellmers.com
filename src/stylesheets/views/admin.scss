@@ -1,5 +1,5 @@
 .view.admin {
-  table.show-all {
+  table.show-all-view {
     table-layout: fixed;
     td {
       overflow: hidden;
@@ -24,7 +24,7 @@
     }
   }
 
-  .delete {
+  .delete-view {
     .btn-raised:not(:last-child) {
       margin-right: 20px;
     }

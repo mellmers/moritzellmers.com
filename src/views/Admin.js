@@ -3,7 +3,9 @@ import Base from './../components/Base';
 import { connect } from 'react-redux';
 import { FormattedDate } from 'react-intl';
 
-import { deleteProject, getProjects } from '../actions/projects';
+var serialize = require('form-serialize');
+
+import { createProject, deleteProject, getProjects, updateProject } from '../actions/projects';
 
 import './../stylesheets/views/admin.scss';
 
@@ -18,7 +20,27 @@ export default class Admin extends Base {
         getProjects();
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if(this.state.view === "edit") {
+            let self = this;
+            $('#edit-form').validator().on('submit', function (e) {
+                if (!e.isDefaultPrevented()) {
+                    e.preventDefault();
+                    let formData = serialize(document.querySelector("#edit-form"), { hash: true });
+                    self.props.dispatch(updateProject(formData)).then(function (response) {
+                        if(response.id) {
+                            self.changeView("all");
+                        }
+                    });
+                }
+            });
+        }
+    }
+
     changeView(view, currentProject) {
+        if(view !== "edit") {
+            $('#edit-form').validator().off('submit');
+        }
         this.setState({
             view: view,
             currentProject: currentProject
@@ -28,7 +50,7 @@ export default class Admin extends Base {
     create() {
 
         return (
-            <div className="create">
+            <div className="create-view">
                 <h3>Neues Projekt erstellen</h3>
 
                 <a className="btn btn-primary" onClick={this.changeView.bind(this, "all")}>Alle anzeigen</a>
@@ -38,9 +60,8 @@ export default class Admin extends Base {
 
     delete() {
         let project = this.state.currentProject;
-        console.log(project)
         return (
-            <div className="delete">
+            <div className="delete-view">
                 <h3>Projekt löschen</h3>
 
                 <a className="btn btn-primary" onClick={this.changeView.bind(this, "create")}>Neues Projekt erstellen</a>
@@ -53,18 +74,137 @@ export default class Admin extends Base {
         );
     }
 
-    onDeleteClick() {
-        deleteProject("");
+    edit() {
+        let project = this.state.currentProject;
+
+        return (
+            <div className="edit-view">
+                <h3>Bearbeitungsansicht</h3>
+
+                <a className="btn btn-primary" onClick={this.changeView.bind(this, "create")}>Neues Projekt erstellen</a>
+                <a className="btn btn-primary" onClick={this.changeView.bind(this, "all")}>Alle anzeigen</a>
+
+                <form id="edit-form"
+                      role="form"
+                      data-toggle="validator">
+                    <input
+                        type="text"
+                        id="idInput"
+                        name="id"
+                        className="hidden"
+                        value={project.id}
+                        readOnly="true"
+                    />
+                    <div className="form-group label-floating">
+                        <label className="control-label" for="title">Titel</label>
+                        <input
+                            type="text"
+                            id="titleInput"
+                            name="title"
+                            className="form-control"
+                            defaultValue={project.title}
+                            maxLength={255}
+                        />
+                    </div>
+                    <div className="form-group label-floating">
+                        <label className="control-label" for="title">Beschreibung</label>
+                        <input
+                            type="textarea"
+                            id="descriptionInput"
+                            name="description"
+                            className="form-control"
+                            defaultValue={project.description}
+                            maxLength={21844}
+                            rows="4"
+                        />
+                    </div>
+                    <div className="form-group label-floating">
+                        <label className="control-label" for="title">Category</label>
+                        <select
+                            name="categoryId"
+                            className="form-control"
+                        >
+                            <option value="1">Audio</option>
+                            <option value="2">Video</option>
+                        </select>
+                    </div>
+                    <button className="btn btn-primary">Speichern <i className="material-icons">&#xE161;</i></button>
+                    <a className="btn btn-primary" onClick={this.changeView.bind(this, "all")}>Abbrechen</a>
+                </form>
+            </div>
+        );
+    }
+
+    onDeleteClick(id) {
+        this.props.dispatch(deleteProject({id: id}));
     }
 
     single() {
+        let project = this.state.currentProject;
 
         return (
-            <div className="single">
+            <div className="single-view">
                 <h3>Detailansicht</h3>
 
                 <a className="btn btn-primary" onClick={this.changeView.bind(this, "create")}>Neues Projekt erstellen</a>
                 <a className="btn btn-primary" onClick={this.changeView.bind(this, "all")}>Alle anzeigen</a>
+
+                <div className="row">
+                    <div className="col-sm-3">
+                        Titel
+                    </div>
+                    <div className="col-sm-9">
+                        <div>{project.title}</div>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-sm-3">
+                        Beschreibung
+                    </div>
+                    <div className="col-sm-9">
+                        <div>{project.description}</div>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-sm-3">
+                        Erstellt am
+                    </div>
+                    <div className="col-sm-9">
+                        <FormattedDate value={new Date(project.createdAt*1000)}
+                                       year='numeric'
+                                       month='long'
+                                       day='2-digit'  />
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-sm-3">
+                        Kategorie
+                    </div>
+                    <div className="col-sm-9">
+                        <div>{project.category.name}</div>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-sm-3">
+                        Mediumtitel
+                    </div>
+                    <div className="col-sm-9">
+                        <div>{project.medium.title}</div>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-sm-3">
+                        Mediumlink
+                    </div>
+                    <div className="col-sm-9">
+                        <div>{project.medium.link}</div>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-sm-offset-3 col-sm-9">
+                        <a className="btn btn-primary" onClick={this.changeView.bind(this, "edit", project)}>Bearbeiten <i className="material-icons">&#xE254;</i></a>
+                    </div>
+                </div>
             </div>
         );
     }
@@ -84,8 +224,8 @@ export default class Admin extends Base {
                                            month='long'
                                            day='2-digit'  /></td>
                         <td>{project.category.name}</td>
-                        <td>{project.media.title}</td>
-                        <td>{project.media.link}</td>
+                        <td>{project.medium.title}</td>
+                        <td>{project.medium.link}</td>
                         <td className="actions">
                             <a className="btn btn-primary" onClick={self.changeView.bind(self, "single", project)}><i className="material-icons">&#xE417;</i></a>
                             <a className="btn btn-primary" onClick={self.changeView.bind(self, "edit", project)}><i className="material-icons">&#xE254;</i></a>
@@ -97,7 +237,7 @@ export default class Admin extends Base {
         }
 
         return (
-            <table className="table table-striped show-all">
+            <table className="table table-striped show-all-view">
                 <thead>
                 <tr>
                     <th>Titel</th>
@@ -126,7 +266,7 @@ export default class Admin extends Base {
                 content = this.delete();
                 break;
             case "edit":
-                content = this.showAll();
+                content = this.edit();
                 break;
             case "single":
                 content = this.single();
